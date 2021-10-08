@@ -5,9 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <h1>
-        It's a main page!
-    </h1>
-    <a href="/greeting">Go to Greeting Page</a>
+<h1>
+    List of messages
+</h1>
+{{#messages}}
+    <div>
+        <b>{{id}}</b>
+        <span>{{text}}</span>
+        <i>{{tag}}</i>
+    </div>
+{{/messages}}
+<a href="/">Go to Main Page</a>
 </body>
 </html>
