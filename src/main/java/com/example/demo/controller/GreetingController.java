@@ -29,19 +29,21 @@ public class GreetingController {
         model.put("name", name);
         return "greeting";
     }
-
-    @GetMapping("/messages")
-    public String getMessages(Map<String, Object> model) {
-        Iterable<Message> messages = messageRepository.findAll();
-        model.put("messages", messages);
-        return "messages";
-    }
+//
+//    @GetMapping("/messages")
+//    public String getMessages(Map<String, Object> model) {
+//        Iterable<Message> messages = messageRepository.findAll();
+//        model.put("messages", messages);
+//        return "messages";
+//    }
 
     @PostMapping
     public String addMessage(@RequestParam String text, @RequestParam String tag, Map<String, Object> model) {
         Message message = new Message(text, tag);
         messageRepository.save(message);
-        return "redirect:/messages";
+        Iterable<Message> messages = messageRepository.findAll();
+        model.put("messages", messages);
+        return "messages";
     }
 
     @PostMapping("filter")
@@ -54,7 +56,7 @@ public class GreetingController {
         }
 
         model.put("messages", messages);
-        return "main";
+        return "messages";
     }
 
 }
