@@ -6,19 +6,27 @@
 </head>
 <body>
     <div>
-        <form method="post">
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+    <div>
+        <form method="post" action="/main">
             <input type="text" name="text" placeholder="Enter message text">
             <input type="text" name="tag" placeholder="Enter message tag">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <button type="submit">Add new message</button>
         </form>
     </div>
     <div>
         <form method="post" action="filter">
             <input type="text" name="filter" placeholder="Filter">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <button type="submit">Filter messages</button>
         </form>
     </div>
 
-    <a href="/greeting">Go to Greeting Page</a>
+    <a href="/">Go to Greeting Page</a>
 </body>
 </html>

@@ -12,32 +12,24 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class GreetingController {
+public class MainController {
 
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping
+    @GetMapping("/")
+    public String greeting(Map<String, Object> model) {
+        return "greeting";
+    }
+
+    @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepository.findAll();
         model.put("messages", messages);
         return "main";
     }
 
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Map<String, Object> model) {
-        model.put("name", name);
-        return "greeting";
-    }
-//
-//    @GetMapping("/messages")
-//    public String getMessages(Map<String, Object> model) {
-//        Iterable<Message> messages = messageRepository.findAll();
-//        model.put("messages", messages);
-//        return "messages";
-//    }
-
-    @PostMapping
+    @PostMapping("/main")
     public String addMessage(@RequestParam String text, @RequestParam String tag, Map<String, Object> model) {
         Message message = new Message(text, tag);
         messageRepository.save(message);
