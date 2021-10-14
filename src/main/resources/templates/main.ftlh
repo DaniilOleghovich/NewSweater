@@ -9,9 +9,10 @@
     </span>
 </div>
 <div>
-    <form method="post" action="/main">
+    <form method="post" action="/main" enctype="multipart/form-data">
         <input type="text" name="text" placeholder="Enter message text">
         <input type="text" name="tag" placeholder="Enter message tag">
+        <input type="file" name="file" placeholder="Add your file">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <button type="submit">Add new message</button>
     </form>

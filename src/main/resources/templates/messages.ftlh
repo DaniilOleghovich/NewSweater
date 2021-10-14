@@ -10,6 +10,11 @@
         <span>${message.text!""}</span>
         <i>${message.tag!""}</i>
         <strong>${message.authorName}</strong>
+        <div>
+            <#if message.filename??>
+                <img src="/img/${message.filename}">
+            </#if>
+        </div>
     </div>
 <#else>
     No messages
