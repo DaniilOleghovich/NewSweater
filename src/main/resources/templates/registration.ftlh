@@ -7,5 +7,5 @@
 </h1>
 
 ${message!" "}
-<@l.login "/registration" />
+<@l.login "/registration" true/>
 </@c.page>

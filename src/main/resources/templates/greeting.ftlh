@@ -4,5 +4,5 @@
     <h1>
         Hello, User from Greeting Page!
     </h1>
-    <a href="/main">Go to Main Page</a>
+    <span>It's a simple clone of Twitter Application</span>
 </@c.page>
