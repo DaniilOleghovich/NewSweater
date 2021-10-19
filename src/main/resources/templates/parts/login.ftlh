@@ -3,11 +3,17 @@
         <div class="col-sm-6">
             <div class="mb-3">
                 <label class="form-label"> User Name:</label>
-                <input type="text" name="username" class="form-control"/>
+                <input type="text" name="username" class="form-control" placeholder="User Name"/>
             </div>
+            <#if isRegisterForm>
+            <div class="mb-3">
+                <label class="form-label"> Email:</label>
+                <input type="email" name="email" class="form-control" placeholder="some@some.com"/>
+            </div>
+            </#if>
             <div class="mb-3">
                 <label class="form-label"> Password:</label>
-                <input type="password" name="password" class="form-control"/>
+                <input type="password" name="password" class="form-control" placeholder="Password"/>
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}">
             <#if !isRegisterForm>
