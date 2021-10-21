@@ -29,6 +29,7 @@ public class RegistrationController {
             model.put("message", "User already exist");
             return "registration";
         }
+        model.put("message", "Activation code was sent to your email!");
 
         return "redirect:/login";
     }

@@ -6,7 +6,10 @@
         Login Page
     </h1>
 
-    ${message!""}
+    <h3>
+        ${message!""}
+    </h3>
+
 
     <@l.login "/login" false/>
 </@c.page>

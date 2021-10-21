@@ -10,8 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -27,10 +28,22 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public boolean addUser(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
+    private void sendMessage(User user) {
+        if (user.getEmail() != null) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Welcome to Sweater! For activation your account, please, visit the http://localhost:8080/activate/%s",
+                    user.getUsername(),
+                    user.getActivationCode()
+            );
 
-        if (userFromDB != null) {
+            mailSenderService.send(user.getEmail(), "Activation Code", message);
+        }
+    }
+
+    public boolean addUser(User user) {
+
+        if (userRepository.findByUsername(user.getUsername()) != null) {
             return false;
         }
 
@@ -40,16 +53,7 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to Sweater! Please, visit the http://localhost:8080/activate/%s",
-                    user.getUsername(),
-                    user.getActivationCode()
-            );
-
-            mailSenderService.send(user.getEmail(), "Activation Code", message);
-        }
+        sendMessage(user);
 
         return true;
     }
@@ -68,5 +72,60 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
         return true;
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public void saveUser(User user, String username, Map<String, String> form) {
+
+        user.setUsername(username);
+
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
+
+        user.getRoles().clear();
+
+        for (String key : form.keySet()) {
+            if (roles.contains(key)) {
+                user.getRoles().add(Role.valueOf(key));
+            }
+        }
+
+        userRepository.save(user);
+    }
+
+    public void updateProfile(User user, String email, String password) {
+        String userEmail = user.getEmail();
+        String userPassword = user.getPassword();
+
+        boolean isEmailChanged = (email != null && !email.equals(userEmail) ||
+                (userEmail != null && !userEmail.equals(email)));
+
+        boolean isPasswordChanged = (password != null && !password.equals(userPassword) ||
+                (userPassword != null && !userPassword.equals(password)));
+
+        if (isEmailChanged) {
+            user.setEmail(email);
+
+            if (email != null) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+        if (isPasswordChanged) {
+            user.setPassword(password);
+
+            if (password != null) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+
+        userRepository.save(user);
+
+        if (isEmailChanged || isPasswordChanged) {
+            sendMessage(user);
+        }
     }
 }

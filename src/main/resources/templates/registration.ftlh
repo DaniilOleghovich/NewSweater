@@ -5,7 +5,9 @@
 <h1>
     Registration
 </h1>
+<h3>
+    ${message!" "}
+</h3>
 
-${message!" "}
 <@l.login "/registration" true/>
 </@c.page>
