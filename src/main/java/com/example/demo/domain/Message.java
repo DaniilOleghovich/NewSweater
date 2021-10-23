@@ -13,9 +13,10 @@ public class Message {
     private Long id;
 
     @NotBlank(message = "Please fill the message")
-    @Length(max = 2048, message = "Message it too long (more then 2kB)")
+    @Length(max = 2048, message = "Message text it too long (more then 2kB)")
     private String text;
 
+    @Length(max = 255, message = "Message tag it too long (more then 255)")
     private String tag;
 
     public String getFilename() {

@@ -34,6 +34,8 @@
         <div class="navbar-text mr-2">
             ${name}
         </div>
-        <@l.logout/>
+        <#if Session.SPRING_SECURITY_CONTEXT??>
+            <@l.logout/>
+        </#if>
     </div>
 </nav>

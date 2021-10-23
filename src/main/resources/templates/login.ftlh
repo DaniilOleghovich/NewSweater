@@ -6,9 +6,11 @@
         Login Page
     </h1>
 
-    <h3>
-        ${message!""}
-    </h3>
+<#if Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION?? && RequestParameters.error??>
+    <div class="alert alert-danger" role="alert">
+        ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
+    </div>
+</#if>
 
 
     <@l.login "/login" false/>

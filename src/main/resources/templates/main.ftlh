@@ -17,14 +17,26 @@
         Add new message
     </a>
 
-    <div id="collapseForm" class="collapse mt-3">
+    <div id="collapseForm" class="collapse mt-3 <#if message??> show </#if>">
         <div class="form-group">
             <form method="post" action="/main" enctype="multipart/form-data" >
                 <div class="form-group">
-                    <input type="text" class="form-control" name="text" placeholder="Enter message text">
+                    <input type="text" class="form-control ${(textError??)?string('is-invalid', '')}"
+                           value="<#if message??> ${message.text} </#if>" name="text" placeholder="Enter message text">
+                    <#if textError??>
+                        <div class="invalid-feedback">
+                            ${textError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="tag" placeholder="Enter message tag">
+                    <input type="text" class="form-control ${(tagError??)?string('is-invalid', '')}" name="tag"
+                           value="<#if message??> ${message.tag} </#if>" placeholder="Enter message tag">
+                    <#if tagError??>
+                        <div class="invalid-feedback">
+                            ${tagError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <div class="custom-file">
